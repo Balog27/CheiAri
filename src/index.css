@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* App-specific small resets */
+:root { scroll-behavior: smooth; }
+html { scroll-padding-top: 64px; }
+body { @apply bg-gray-900 text-slate-200; }
+
