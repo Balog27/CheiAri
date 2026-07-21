@@ -2,8 +2,68 @@
 @tailwind components;
 @tailwind utilities;
 
-/* App-specific small resets */
-:root { scroll-behavior: smooth; }
-html { scroll-padding-top: 64px; }
-body { @apply bg-gray-900 text-slate-200; }
+@layer base {
+  :root {
+    color-scheme: light;
+  }
 
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    /* Keep anchored sections clear of the fixed header. */
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    @apply bg-paper font-sans text-ink antialiased;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'ss01';
+  }
+
+  ::selection {
+    @apply bg-ink text-paper;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-brass ring-offset-2 ring-offset-paper;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Single page gutter. Wide enough to breathe on 27" displays without
+     letting measure run away. */
+  .shell {
+    @apply mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-12 2xl:px-20;
+  }
+
+  .eyebrow {
+    @apply text-[0.6875rem] font-medium uppercase tracking-[0.2em];
+  }
+
+  /* Small text link with a rule that grows from the left on hover. */
+  .link {
+    @apply relative inline-block transition-colors duration-200;
+  }
+
+  .link::after {
+    content: '';
+    @apply absolute -bottom-0.5 left-0 h-px w-full origin-right scale-x-0 bg-current transition-transform duration-300 ease-out;
+  }
+
+  .link:hover::after {
+    @apply origin-left scale-x-100;
+  }
+}
