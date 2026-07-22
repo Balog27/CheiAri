@@ -34,7 +34,7 @@ const Section: React.FC<SectionProps> = ({ id, index, title, tone = 'light', chi
             <h2 className="mt-3 text-h2 font-semibold">{title}</h2>
           </div>
         </header>
-        <div className="lg:col-span-8 xl:col-span-8 xl:col-start-5">{children}</div>
+        <div className="lg:col-span-8 xl:col-span-9 xl:col-start-4">{children}</div>
       </div>
     </section>
   );
@@ -95,7 +95,7 @@ const Hero: React.FC = () => (
 
       <p className="mt-7 max-w-measure text-lead text-paper/70">
         Copiem chei standard și de înaltă securitate, cartele de acces, și ascuțim cuțite
-        și foarfece pe echipament profesional. Cele mai multe lucrări se fac cât aștepți.
+        pe echipament profesional. Cele mai multe lucrări se fac cât aștepți.
       </p>
 
       <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
@@ -158,7 +158,6 @@ const Keys: React.FC = () => (
         'Chei de apartament, casă, garaj și lacăt',
         'Chei cu profil de siguranță și înaltă securitate',
         'Cartele și tag-uri de proximitate pentru interfon',
-        'Semifabricate pe stoc pentru profilele uzuale',
       ].map((item) => (
         <li key={item} className="flex gap-3.5">
           <span className="mt-[0.6em] h-px w-4 shrink-0 bg-brass" aria-hidden="true" />
@@ -191,7 +190,7 @@ const Keys: React.FC = () => (
 );
 
 const Sharpening: React.FC = () => (
-  <Section id="ascutire" index="02 / Ascuțire" title="Ascuțire cuțite și foarfece" tone="dark">
+  <Section id="ascutire" index="02 / Ascuțire" title="Ascuțire cuțite" tone="dark">
     <p className="max-w-measure text-lead text-paper/75">
       Un cuțit tocit alunecă și taie mâna, nu alimentul. Refacem unghiul original al
       tăișului pe polizor cu apă, ca să nu ardem oțelul, și finisăm manual pe piatră.
@@ -200,9 +199,8 @@ const Sharpening: React.FC = () => (
     <h3 className="eyebrow mt-14 text-paper/60">Ce ascuțim</h3>
     <ul className="mt-5 border-t border-paper/25">
       {[
-        'Cuțite de bucătărie, din oțel și ceramică',
-        'Foarfece de croitorie și de uz profesional',
-        'Satâre, cuțite de măcelărie și unelte de grădină',
+        'Cuțite de bucătărie, din oțel',
+        'Satâre și cuțite de măcelărie',
       ].map((item) => (
         <li key={item} className="border-b border-paper/15 py-4 text-paper/85">
           {item}
