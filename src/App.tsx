@@ -197,12 +197,11 @@ const Sharpening: React.FC = () => (
     </p>
 
     <h3 className="eyebrow mt-14 text-paper/60">Ce ascuțim</h3>
-    <ul className="mt-5 border-t border-paper/25">
-      {[
-        'Cuțite de bucătărie, din oțel',
-        'Satâre și cuțite de măcelărie',
-      ].map((item) => (
-        <li key={item} className="border-b border-paper/15 py-4 text-paper/85">
+    {/* Dividers only, so the list has no closing rule to collide with the
+        price block's top rule below. */}
+    <ul className="mt-5 divide-y divide-paper/15 border-t border-paper/25">
+      {['Cuțite de bucătărie, din oțel', 'Satâre și cuțite de măcelărie'].map((item) => (
+        <li key={item} className="py-4 text-paper/85">
           {item}
         </li>
       ))}
