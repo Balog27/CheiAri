@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
+import { ADDRESS_LINE, HOURS_SUMMARY } from './business';
 
-export type SectionId = 'hero' | 'chei' | 'ascutire' | 'locatie';
+export type SectionId = 'hero' | 'chei' | 'ascutire' | 'locatie' | 'intrebari';
 
 export const NAV_ITEMS: ReadonlyArray<{ id: SectionId; label: string }> = [
   { id: 'chei', label: 'Chei' },
   { id: 'ascutire', label: 'Ascuțire' },
   { id: 'locatie', label: 'Locație' },
+  { id: 'intrebari', label: 'Întrebări' },
 ];
 
 /** Height of the fixed header, so anchored sections don't land under it. */
@@ -182,8 +184,8 @@ export default function NavBar() {
           ))}
         </nav>
         <div className="shell mt-10 space-y-1 text-sm text-ink-500">
-          <p className="text-ink">Strada Câmpului 17, Cluj-Napoca</p>
-          <p>Luni – Joi 10:00–16:00 · Vineri 10:00–14:00</p>
+          <p className="text-ink">{ADDRESS_LINE}</p>
+          <p>{HOURS_SUMMARY}</p>
         </div>
       </div>
     </>

@@ -20,7 +20,10 @@ export const BUSINESS_NAME = 'Master Key & Blade';
 export const ADDRESS = {
   street: 'Strada Câmpului 17',
   city: 'Cluj-Napoca',
+  /** As printed on the page. */
   region: 'județul Cluj',
+  /** Bare county name — what schema.org's addressRegion expects. */
+  regionShort: 'Cluj',
   /** ISO 3166-1 alpha-2, for schema.org. */
   country: 'RO',
 } as const;

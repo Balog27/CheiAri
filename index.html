@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#141210" />
 
     <title>Master Key &amp; Blade | Copiere chei și ascuțire cuțite în Cluj-Napoca</title>
@@ -12,28 +13,56 @@
       name="description"
       content="Atelier în Cluj-Napoca: copiere chei standard și de înaltă securitate, cartele și tag-uri de proximitate, ascuțire profesională de cuțite. Strada Câmpului 17."
     />
+    <!-- max-snippet/max-image-preview are what let Google and AI Overviews quote
+         the page at length instead of a truncated stub. -->
+    <meta
+      name="robots"
+      content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+    />
 
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="ro_RO" />
+    <meta property="og:site_name" content="Master Key &amp; Blade" />
     <meta property="og:title" content="Master Key &amp; Blade | Chei și ascuțire, Cluj-Napoca" />
     <meta
       property="og:description"
       content="Copiere chei, cartele de acces și ascuțire profesională de lame. Strada Câmpului 17, Cluj-Napoca."
     />
-    <!-- Swap for the full https://… URL once the domain is live: some scrapers
-         refuse to resolve a relative og:image. -->
+    <!-- scripts/prerender.mjs rewrites this to an absolute URL at build time and
+         adds canonical + og:url; several scrapers refuse to resolve relative ones. -->
     <meta property="og:image" content="/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="Master Key &amp; Blade — Cluj-Napoca" />
+
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Master Key &amp; Blade | Chei și ascuțire, Cluj-Napoca" />
+    <meta
+      name="twitter:description"
+      content="Copiere chei, cartele de acces și ascuțire profesională de lame. Strada Câmpului 17, Cluj-Napoca."
+    />
+    <meta name="twitter:image" content="/og-image.png" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Loaded asynchronously so the font request never blocks first paint. -->
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+    />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
       rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
   </head>
   <body>
     <div id="root"></div>

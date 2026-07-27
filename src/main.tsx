@@ -1,11 +1,19 @@
 import React from 'react'
-import ReactDOM from 'react-dom/client'
+import { createRoot, hydrateRoot } from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+const container = document.getElementById('root')!
+const tree = (
   <React.StrictMode>
     <App />
-  </React.StrictMode>,
+  </React.StrictMode>
 )
 
+// Production HTML is prerendered by scripts/prerender.mjs, so there is markup to
+// adopt; the dev server serves an empty shell, so there is not.
+if (container.hasChildNodes()) {
+  hydrateRoot(container, tree)
+} else {
+  createRoot(container).render(tree)
+}

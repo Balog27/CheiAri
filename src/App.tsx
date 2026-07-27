@@ -1,5 +1,19 @@
 import React from 'react';
 import NavBar, { scrollToSection, type SectionId } from './navBar';
+import {
+  ADDRESS,
+  ADDRESS_LINE,
+  BUSINESS_NAME,
+  FAQ,
+  GBP_URL,
+  HOURS,
+  HOURS_SUMMARY,
+  KEY_PRICES,
+  KEY_SERVICES,
+  SHARPENING_PRICE,
+  SHARPENING_SERVICES,
+  type PriceRow,
+} from './business';
 
 // ---------------------------------------------------------------------------
 // Shared building blocks
@@ -40,12 +54,6 @@ const Section: React.FC<SectionProps> = ({ id, index, title, tone = 'light', chi
   );
 };
 
-interface PriceRow {
-  label: string;
-  note?: string;
-  price: string;
-}
-
 const PriceList: React.FC<{ rows: PriceRow[] }> = ({ rows }) => (
   <dl className="border-t border-ink/20">
     {rows.map((row) => (
@@ -63,22 +71,27 @@ const PriceList: React.FC<{ rows: PriceRow[] }> = ({ rows }) => (
   </dl>
 );
 
-const KEY_PRICES: PriceRow[] = [
-  { label: 'Cheie standard', note: 'Yale, cilindru simplu', price: '15 lei' },
-  { label: 'Cheie cu profil de siguranță', note: 'Cu canal de siguranță', price: '30 lei' },
-  { label: 'Cheie de înaltă securitate', note: 'Profil punctat, cap oval', price: '35 lei' },
-  { label: 'Cartelă sau tag de proximitate', note: 'Copiere pentru interfon și acces', price: '25 lei' },
-];
-
 // ---------------------------------------------------------------------------
 // Sections
 
+/**
+ * React 18.2 does not know the camelCase `fetchPriority` prop and drops it with
+ * a warning, so the lowercase HTML attribute is spread in instead.
+ */
+const HIGH_PRIORITY = { fetchpriority: 'high' } as Record<string, string>;
+
 const Hero: React.FC = () => (
   <section id="hero" className="relative flex min-h-[100svh] items-end overflow-hidden bg-ink">
+    {/* LCP element: eager and high priority, with intrinsic size so it reserves its box. */}
     <img
-      src="/keys%20ai.png"
-      alt=""
-      aria-hidden="true"
+      src="/atelier-copiere-chei-cluj-napoca.webp"
+      srcSet="/atelier-copiere-chei-cluj-napoca-640.webp 640w, /atelier-copiere-chei-cluj-napoca.webp 1024w"
+      sizes="100vw"
+      width={1024}
+      height={1536}
+      alt="Chei tăiate în atelierul Master Key & Blade din Cluj-Napoca"
+      {...HIGH_PRIORITY}
+      decoding="async"
       className="absolute inset-0 h-full w-full object-cover object-center"
     />
     <div
@@ -87,7 +100,7 @@ const Hero: React.FC = () => (
     />
 
     <div className="shell relative w-full pb-16 pt-32 lg:pb-24">
-      <p className="eyebrow text-paper/60">Cluj-Napoca · atelier propriu</p>
+      <p className="eyebrow text-paper/60">Copiere chei și ascuțire cuțite · Cluj-Napoca</p>
 
       <h1 className="mt-6 max-w-[18ch] text-display font-semibold text-paper">
         Chei tăiate corect, lame ascuțite ca la carte.
@@ -95,7 +108,8 @@ const Hero: React.FC = () => (
 
       <p className="mt-7 max-w-measure text-lead text-paper/70">
         Copiem chei standard și de înaltă securitate, cartele de acces, și ascuțim cuțite
-        pe echipament profesional. Cele mai multe lucrări se fac cât aștepți.
+        pe echipament profesional, în atelierul propriu de pe {ADDRESS.street} din{' '}
+        {ADDRESS.city}. Cele mai multe lucrări se fac cât aștepți.
       </p>
 
       <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
@@ -130,13 +144,11 @@ const InfoBar: React.FC = () => (
     <dl className="shell grid divide-y divide-ink/10 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
       <div className="py-6 sm:pr-8">
         <dt className="eyebrow text-ink-300">Adresă</dt>
-        <dd className="mt-2 text-sm text-ink-700">Strada Câmpului 17, Cluj-Napoca</dd>
+        <dd className="mt-2 text-sm text-ink-700">{ADDRESS_LINE}</dd>
       </div>
       <div className="py-6 sm:px-8">
         <dt className="eyebrow text-ink-300">Program</dt>
-        <dd className="mt-2 text-sm text-ink-700">
-          Luni – Joi 10:00–16:00 · Vineri 10:00–14:00
-        </dd>
+        <dd className="mt-2 text-sm text-ink-700">{HOURS_SUMMARY}</dd>
       </div>
       <div className="py-6 sm:pl-8">
         <dt className="eyebrow text-ink-300">Servicii</dt>
@@ -154,11 +166,7 @@ const Keys: React.FC = () => (
     </p>
 
     <ul className="mt-8 max-w-measure space-y-2.5 text-ink-700">
-      {[
-        'Chei de apartament, casă, garaj și lacăt',
-        'Chei cu profil de siguranță și înaltă securitate',
-        'Cartele și tag-uri de proximitate pentru interfon',
-      ].map((item) => (
+      {KEY_SERVICES.map((item) => (
         <li key={item} className="flex gap-3.5">
           <span className="mt-[0.6em] h-px w-4 shrink-0 bg-brass" aria-hidden="true" />
           {item}
@@ -168,7 +176,11 @@ const Keys: React.FC = () => (
 
     <figure className="mt-14">
       <img
-        src="/organizatorChei.png"
+        src="/cartele-tag-uri-proximitate.webp"
+        srcSet="/cartele-tag-uri-proximitate-768.webp 768w, /cartele-tag-uri-proximitate.webp 1536w"
+        sizes="(min-width: 1024px) 66vw, 100vw"
+        width={1536}
+        height={1024}
         alt="Cartele și tag-uri de proximitate în mai multe culori"
         loading="lazy"
         decoding="async"
@@ -200,7 +212,7 @@ const Sharpening: React.FC = () => (
     {/* Dividers only, so the list has no closing rule to collide with the
         price block's top rule below. */}
     <ul className="mt-5 divide-y divide-paper/15 border-t border-paper/25">
-      {['Cuțite de bucătărie, din oțel', 'Satâre și cuțite de măcelărie'].map((item) => (
+      {SHARPENING_SERVICES.map((item) => (
         <li key={item} className="py-4 text-paper/85">
           {item}
         </li>
@@ -210,7 +222,7 @@ const Sharpening: React.FC = () => (
     {/* The price carries the visual weight the photograph used to. */}
     <div className="mt-14 border-t border-paper/25 pt-8">
       <p className="eyebrow text-paper/60">Preț</p>
-      <p className="mt-4 text-display font-semibold tabular-nums">7 – 12 lei</p>
+      <p className="mt-4 text-display font-semibold tabular-nums">{SHARPENING_PRICE.price}</p>
       <p className="mt-4 max-w-measure text-sm text-paper/60">
         Per lamă, în funcție de tip și dimensiune. Lamele foarte deteriorate se evaluează
         separat, după ce le vedem.
@@ -226,26 +238,36 @@ const Location: React.FC = () => (
         <div>
           <dt className="eyebrow text-ink-300">Adresă</dt>
           <dd className="mt-2.5 text-lead">
-            Strada Câmpului 17
-            <br />
-            Cluj-Napoca, județul Cluj
+            <address className="not-italic">
+              {ADDRESS.street}
+              <br />
+              {ADDRESS.city}, {ADDRESS.region}
+            </address>
+            {/* Links the site to the claimed Google Business Profile once its
+                share URL is filled in — see GBP_URL in business.ts. */}
+            {GBP_URL && (
+              <a
+                href={GBP_URL}
+                target="_blank"
+                rel="noopener"
+                className="link mt-3 inline-block text-sm text-ink-500 hover:text-ink"
+              >
+                Vezi-ne pe Google Maps
+              </a>
+            )}
           </dd>
         </div>
 
         <div>
           <dt className="eyebrow text-ink-300">Program</dt>
           <dd className="mt-3 border-t border-ink/20">
-            {[
-              ['Luni – Joi', '10:00 – 16:00'],
-              ['Vineri', '10:00 – 14:00'],
-              ['Sâmbătă – Duminică', 'Închis'],
-            ].map(([days, hours]) => (
+            {HOURS.map((slot) => (
               <div
-                key={days}
+                key={slot.days}
                 className="flex items-baseline justify-between gap-6 border-b border-ink/10 py-3"
               >
-                <span className="text-ink-700">{days}</span>
-                <span className="tabular-nums text-ink-500">{hours}</span>
+                <span className="text-ink-700">{slot.days}</span>
+                <span className="tabular-nums text-ink-500">{slot.hours}</span>
               </div>
             ))}
           </dd>
@@ -255,13 +277,31 @@ const Location: React.FC = () => (
       <div className="border border-ink/15">
         <iframe
           src="https://www.google.com/maps?q=Strada+C%C3%A2mpului+17,+Cluj-Napoca&output=embed"
-          title="Harta către Strada Câmpului 17, Cluj-Napoca"
+          title={`Harta către ${ADDRESS_LINE}`}
           loading="lazy"
           className="block h-[320px] w-full lg:h-full lg:min-h-[420px]"
           style={{ border: 0 }}
         />
       </div>
     </div>
+  </Section>
+);
+
+/**
+ * Plain answers to the questions customers actually ask. Every answer restates
+ * something already said elsewhere on the page: answer engines quote this
+ * section, and the FAQPage schema must not outrun the visible copy.
+ */
+const Faq: React.FC = () => (
+  <Section id="intrebari" index="04 / Întrebări" title="Întrebări frecvente">
+    <dl className="max-w-measure border-t border-ink/20">
+      {FAQ.map((item) => (
+        <div key={item.question} className="border-b border-ink/10 py-6">
+          <dt className="text-h3 font-semibold">{item.question}</dt>
+          <dd className="mt-3 text-ink-700">{item.answer}</dd>
+        </div>
+      ))}
+    </dl>
   </Section>
 );
 
@@ -272,7 +312,9 @@ const Footer: React.FC = () => (
         MASTER KEY <span className="font-normal text-brass-400">&amp; BLADE</span>
       </p>
       <div className="text-sm text-paper/60 sm:text-right">
-        <p>© {new Date().getFullYear()} Master Key &amp; Blade · Strada Câmpului 17, Cluj-Napoca</p>
+        <p>
+          © {new Date().getFullYear()} {BUSINESS_NAME} · {ADDRESS_LINE}
+        </p>
         <p className="mt-1.5">Creat de David Balog</p>
       </div>
     </div>
@@ -290,6 +332,7 @@ const App: React.FC = () => (
       <Keys />
       <Sharpening />
       <Location />
+      <Faq />
     </main>
     <Footer />
   </>

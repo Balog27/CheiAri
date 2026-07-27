@@ -10,7 +10,8 @@ export default defineConfig({
   },
   build: {
     outDir: 'dist',
-    sourcemap: true
+    // Sourcemaps shipped ~375 KB of dead weight to production visitors.
+    sourcemap: false
   }
 })
 
