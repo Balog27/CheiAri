@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
-export type SectionId = 'hero' | 'chei' | 'ascutire' | 'contact';
+export type SectionId = 'hero' | 'chei' | 'ascutire' | 'locatie';
 
 export const NAV_ITEMS: ReadonlyArray<{ id: SectionId; label: string }> = [
   { id: 'chei', label: 'Chei' },
   { id: 'ascutire', label: 'Ascuțire' },
-  { id: 'contact', label: 'Contact' },
+  { id: 'locatie', label: 'Locație' },
 ];
 
 /** Height of the fixed header, so anchored sections don't land under it. */

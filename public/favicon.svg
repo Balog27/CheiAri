@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Master Key &amp; Blade">
+  <rect width="64" height="64" fill="#141210"/>
+  <!-- Key: ring bow on the left, shaft and two teeth running right. Kept to
+       chunky strokes so the mark survives being scaled down to 16px. -->
+  <g fill="none" stroke="#C49A5E" stroke-width="6" stroke-linecap="square">
+    <circle cx="22" cy="32" r="11"/>
+    <path d="M33 32h20"/>
+  </g>
+  <path d="M42 32h5v10h-5zM50 32h5v7h-5z" fill="#C49A5E"/>
+</svg>

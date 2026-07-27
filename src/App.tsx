@@ -110,10 +110,10 @@ const Hero: React.FC = () => (
           Vezi serviciile și prețurile
         </a>
         <a
-          href="#contact"
+          href="#locatie"
           onClick={(e) => {
             e.preventDefault();
-            scrollToSection('contact');
+            scrollToSection('locatie');
           }}
           className="link text-sm text-paper/80 hover:text-paper"
         >
@@ -219,8 +219,8 @@ const Sharpening: React.FC = () => (
   </Section>
 );
 
-const Contact: React.FC = () => (
-  <Section id="contact" index="03 / Contact" title="Unde ne găsești">
+const Location: React.FC = () => (
+  <Section id="locatie" index="03 / Locație" title="Unde ne găsești">
     <div className="grid gap-10 lg:grid-cols-2 lg:gap-14">
       <dl className="space-y-8">
         <div>
@@ -229,15 +229,6 @@ const Contact: React.FC = () => (
             Strada Câmpului 17
             <br />
             Cluj-Napoca, județul Cluj
-          </dd>
-        </div>
-
-        <div>
-          <dt className="eyebrow text-ink-300">Email</dt>
-          <dd className="mt-2.5">
-            <a href="mailto:contact@masterkeyblade.ro" className="link text-lead">
-              contact@masterkeyblade.ro
-            </a>
           </dd>
         </div>
 
@@ -280,9 +271,10 @@ const Footer: React.FC = () => (
       <p className="text-[0.8125rem] font-semibold tracking-[0.22em]">
         MASTER KEY <span className="font-normal text-brass-400">&amp; BLADE</span>
       </p>
-      <p className="text-sm text-paper/60">
-        © {new Date().getFullYear()} Master Key &amp; Blade · Strada Câmpului 17, Cluj-Napoca
-      </p>
+      <div className="text-sm text-paper/60 sm:text-right">
+        <p>© {new Date().getFullYear()} Master Key &amp; Blade · Strada Câmpului 17, Cluj-Napoca</p>
+        <p className="mt-1.5">Site realizat de Balog David</p>
+      </div>
     </div>
   </footer>
 );
@@ -297,7 +289,7 @@ const App: React.FC = () => (
       <InfoBar />
       <Keys />
       <Sharpening />
-      <Contact />
+      <Location />
     </main>
     <Footer />
   </>
