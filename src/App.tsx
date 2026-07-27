@@ -273,7 +273,7 @@ const Footer: React.FC = () => (
       </p>
       <div className="text-sm text-paper/60 sm:text-right">
         <p>© {new Date().getFullYear()} Master Key &amp; Blade · Strada Câmpului 17, Cluj-Napoca</p>
-        <p className="mt-1.5">Site realizat de Balog David</p>
+        <p className="mt-1.5">Creat de David Balog</p>
       </div>
     </div>
   </footer>
