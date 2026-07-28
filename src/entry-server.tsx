@@ -12,7 +12,9 @@ import {
   ADDRESS,
   BUSINESS_NAME,
   CURRENCY,
+  DOMAIN_LIVE,
   EMAIL,
+  GBP_NAME,
   FAQ,
   GBP_URL,
   GEO,
@@ -40,6 +42,9 @@ function buildJsonLd() {
     '@type': ['Locksmith', 'LocalBusiness'],
     '@id': BUSINESS_ID,
     name: BUSINESS_NAME,
+    // The Maps listing is under a different name; declaring it here is what
+    // lets Google resolve the two to a single entity.
+    alternateName: GBP_NAME !== BUSINESS_NAME ? GBP_NAME : null,
     description: META_DESCRIPTION,
     url: `${SITE_URL}/`,
     image: `${SITE_URL}/og-image.png`,
@@ -53,6 +58,7 @@ function buildJsonLd() {
       '@type': 'PostalAddress',
       streetAddress: ADDRESS.street,
       addressLocality: ADDRESS.city,
+      postalCode: ADDRESS.postalCode,
       addressRegion: ADDRESS.regionShort,
       addressCountry: ADDRESS.country,
     },
@@ -151,4 +157,14 @@ export function render() {
   };
 }
 
-export { SITE_URL, BUSINESS_NAME, META_DESCRIPTION, ADDRESS, HOURS, KEY_PRICES, SHARPENING_PRICE, FAQ };
+export {
+  SITE_URL,
+  DOMAIN_LIVE,
+  BUSINESS_NAME,
+  META_DESCRIPTION,
+  ADDRESS,
+  HOURS,
+  KEY_PRICES,
+  SHARPENING_PRICE,
+  FAQ,
+};

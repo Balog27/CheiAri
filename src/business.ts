@@ -15,13 +15,36 @@
 // JSON-LD @id all derive from it, and they are wrong until this is right.
 export const SITE_URL = 'https://masterkeyblade.ro';
 
+/**
+ * Flip to `true` the moment SITE_URL is the real, live domain.
+ *
+ * While it is `false` the build marks the page `noindex` and omits the
+ * canonical and og:url tags. That is deliberate: the site is reachable on a
+ * temporary *.vercel.app URL, and a canonical pointing at a domain that does
+ * not resolve yet would get the page dropped from Google's index outright.
+ */
+export const DOMAIN_LIVE = false;
+
 export const BUSINESS_NAME = 'Master Key & Blade';
+
+/**
+ * The name the Google Business Profile is actually listed under. It differs
+ * from the brand name above, so it is emitted as schema.org `alternateName`:
+ * that is what lets Google tell that the site and the Maps listing are one
+ * business rather than two. See the note in SEO.md.
+ */
+export const GBP_NAME: string = 'Copiat chei';
+
+/** Category the Maps listing is filed under: "Servicii de duplicare chei". */
+export const GBP_CATEGORY = 'Servicii de duplicare chei';
 
 export const ADDRESS = {
   street: 'Strada Câmpului 17',
   city: 'Cluj-Napoca',
   /** As printed on the page. */
   region: 'județul Cluj',
+  /** As shown on the Google Maps listing. */
+  postalCode: '400000',
   /** Bare county name — what schema.org's addressRegion expects. */
   regionShort: 'Cluj',
   /** ISO 3166-1 alpha-2, for schema.org. */
@@ -31,11 +54,18 @@ export const ADDRESS = {
 /** Human-readable one-liner, used in the InfoBar and the footer. */
 export const ADDRESS_LINE = `${ADDRESS.street}, ${ADDRESS.city}`;
 
-/** TODO: paste the exact coordinates from the claimed Google Business Profile. */
-export const GEO: { latitude: number; longitude: number } | null = null;
+/** Coordinates of the pin on the claimed Google Business Profile. */
+export const GEO: { latitude: number; longitude: number } | null = {
+  latitude: 46.7587875,
+  longitude: 23.5627455,
+};
 
-/** TODO: the profile's share link (g.page/… or maps.app.goo.gl/…). Ties site ↔ listing. */
-export const GBP_URL: string | null = null;
+/**
+ * Canonical link to the Maps listing, by CID — the stable numeric id of the
+ * place (0xa8696d805b9ca003). Preferred over a copied /maps/place/… URL, which
+ * embeds a viewport and session parameters that rot.
+ */
+export const GBP_URL: string | null = 'https://maps.google.com/?cid=12135351068986744835';
 
 /** TODO: add when the owner is ready — see the note at the bottom of SEO.md. */
 export const PHONE: string | null = null;

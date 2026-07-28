@@ -15,8 +15,18 @@ const dist = path.join(root, 'dist');
 const ssrEntry = path.join(root, 'dist-ssr', 'entry-server.js');
 
 const server = await import(pathToFileURL(ssrEntry).href);
-const { render, SITE_URL, BUSINESS_NAME, META_DESCRIPTION, ADDRESS, HOURS, KEY_PRICES, SHARPENING_PRICE, FAQ } =
-  server;
+const {
+  render,
+  SITE_URL,
+  DOMAIN_LIVE,
+  BUSINESS_NAME,
+  META_DESCRIPTION,
+  ADDRESS,
+  HOURS,
+  KEY_PRICES,
+  SHARPENING_PRICE,
+  FAQ,
+} = server;
 
 const origin = SITE_URL.replace(/\/$/, '');
 const canonical = `${origin}/`;
@@ -30,11 +40,25 @@ let doc = await readFile(path.join(dist, 'index.html'), 'utf8');
 // Relative social-card URLs are dropped by several scrapers; make them absolute.
 doc = doc.replaceAll('content="/og-image.png"', `content="${origin}/og-image.png"`);
 
-// Canonical + og:url can only be written once the domain is known.
+// Canonical and og:url are only truthful once the domain resolves. Pointing a
+// canonical at a dead domain while the site sits on a temporary *.vercel.app URL
+// gets the page dropped from the index, so until DOMAIN_LIVE the page is marked
+// noindex and ships no canonical at all.
+const headTags = DOMAIN_LIVE
+  ? `  <link rel="canonical" href="${canonical}" />\n` +
+    `    <meta property="og:url" content="${canonical}" />\n`
+  : '';
+
+if (!DOMAIN_LIVE) {
+  doc = doc.replace(
+    /<meta\s+name="robots"\s+content="[^"]*"\s*\/>/,
+    '<meta name="robots" content="noindex, nofollow" />',
+  );
+}
+
 doc = doc.replace(
   '</head>',
-  `  <link rel="canonical" href="${canonical}" />\n` +
-    `    <meta property="og:url" content="${canonical}" />\n` +
+  headTags +
     `    <script type="application/ld+json">${escapeForScript(jsonLd)}</script>\n` +
     '  </head>',
 );
@@ -138,3 +162,10 @@ console.log(
   `prerender: ${(html.length / 1024).toFixed(0)} KB of markup + ${(jsonLd.length / 1024).toFixed(1)} KB JSON-LD -> dist/index.html`,
 );
 console.log(`prerender: robots.txt, sitemap.xml, llms.txt written for ${origin}`);
+
+if (!DOMAIN_LIVE) {
+  console.warn(
+    `prerender: DOMAIN_LIVE is false — page marked noindex, no canonical emitted.\n` +
+      `           Set DOMAIN_LIVE = true in src/business.ts once ${origin} resolves.`,
+  );
+}

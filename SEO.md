@@ -7,7 +7,7 @@ diferite.
 |---|---|
 | Căutare Google obișnuită | HTML crawlabil, title/description, date structurate, viteză |
 | Căutare AI (ChatGPT, Perplexity, AI Overviews) | HTML **static** — crawlerele AI nu execută JavaScript — plus fapte explicite și JSON-LD |
-| Google Maps | Profilul Google Business, nu site-ul. Site-ul doar confirmă datele |
+| Google Maps | Fișa Google Business, nu site-ul. Site-ul doar confirmă datele. **Fișa este momentan nerevendicată — vezi secțiunea 5** |
 
 ---
 
@@ -56,18 +56,21 @@ funcționează.
 
 ## 3. Înainte de lansare — obligatoriu
 
-- [ ] **Setează domeniul real** în `SITE_URL` din [src/business.ts](src/business.ts).
-      Din el se generează `canonical`, `og:url`, `sitemap.xml`, `robots.txt` și
-      `@id`-urile din JSON-LD. Până atunci toate arată către `masterkeyblade.ro`,
-      care poate să nu fie domeniul final.
-- [ ] Completează `GEO` cu coordonatele exacte din profilul Google Business
-      (Google Maps → click dreapta pe pin → coordonatele).
-- [ ] Completează `GBP_URL` cu link-ul de share al profilului (`g.page/…` sau
-      `maps.app.goo.gl/…`). Apare automat ca „Vezi-ne pe Google Maps" în secțiunea
-      Locație și ca `sameAs` + `hasMap` în JSON-LD — asta leagă site-ul de fișa Maps.
-- [ ] Adaugă `PHONE`. Vezi secțiunea 6.
+- [ ] **Setează domeniul real** în `SITE_URL` din [src/business.ts](src/business.ts)
+      și apoi **pune `DOMAIN_LIVE = true`**. Din `SITE_URL` se generează `canonical`,
+      `og:url`, `sitemap.xml`, `robots.txt` și `@id`-urile din JSON-LD.
+
+      Cât timp `DOMAIN_LIVE` este `false`, build-ul marchează pagina `noindex` și
+      nu emite deloc `canonical`. Asta e intenționat: site-ul e accesibil pe un URL
+      temporar `*.vercel.app`, iar un `canonical` către un domeniu care încă nu
+      există ar scoate pagina complet din indexul Google. Build-ul avertizează la
+      fiecare rulare până e schimbat.
 - [ ] Citește răspunsurile din `FAQ` și confirmă că toate sunt corecte. Ele apar
       și ca `FAQPage` în datele structurate, deci trebuie să fie adevărate.
+- [ ] Decide dacă adaugi `PHONE`. Vezi secțiunea 6.
+
+Deja completate din fișa Google Maps: `GEO` (46.7587875, 23.5627455), `GBP_URL`
+(link stabil prin CID), `postalCode` (400000) și `GBP_NAME`.
 
 ## 4. După lansare
 
@@ -81,35 +84,76 @@ funcționează.
 
 ## 5. Google Maps — aici se câștigă vizibilitatea locală
 
-Site-ul contribuie poate 10% la poziția în Maps. Restul e profilul Google Business,
-care este deja revendicat. În ordinea impactului:
+Site-ul contribuie poate 10% la poziția în Maps. Restul e fișa Google Business.
 
-1. **Recenzii.** Numărul, prospețimea și răspunsurile la ele sunt cel mai puternic
-   factor de ranking local. Cere-i fiecărui client mulțumit o recenzie și răspunde
-   la toate, inclusiv la cele negative.
-2. **Categorii.** Categorie principală „Locksmith / Cheie", secundară „Sharpening
-   service / Serviciu de ascuțire".
-3. **NAP identic.** Numele, adresa și programul de pe fișă trebuie să fie
-   caracter cu caracter la fel ca pe site: `Master Key & Blade`,
-   `Strada Câmpului 17, Cluj-Napoca`, luni–joi 10:00–16:00, vineri 10:00–14:00,
-   sâmbătă și duminică închis.
-4. **Website.** Adaugă adresa site-ului în profil în ziua în care domeniul e live.
-5. **Produse și servicii.** Completează-le cu exact aceleași denumiri și prețuri
-   ca pe site (vezi `KEY_PRICES` și `SHARPENING_PRICE`).
-6. **Fotografii reale** din atelier, cu mașinile de copiat și polizorul, adăugate
-   regulat. Fișele cu poze noi apar mai des în rezultate.
-7. **Postări** scurte la fiecare câteva săptămâni (program de sărbători, servicii noi).
-8. **Consistență în directoare** (pagini aurii etc.) — aceleași nume, adresă, telefon.
+**Starea reală a fișei** (verificată pe
+<https://maps.google.com/?cid=12135351068986744835>):
 
-## 6. Ce lipsește încă
+| | |
+|---|---|
+| Nume | `Copiat chei` — **nu** `Master Key & Blade` |
+| Categorie | `Servicii de duplicare chei` |
+| Adresă | `Strada Câmpului 17, 400000 Cluj-Napoca`, „Aflat în: Kaufland" |
+| Recenzii | 9, cu medie ~4,5 |
+| Telefon | niciunul |
+| Stare | **nerevendicată** — fișa afișează „Revendică această compania" |
 
-**Nu există număr de telefon pe site.** Este cel mai mare gol rămas: un lăcătuș
-fără telefon pierde conversii directe, iar Google are un semnal în minus prin care
-să lege site-ul de fișa Maps revendicată.
+### 5.1 Revendică fișa. Acum.
 
-Totul e deja cablat pentru asta — completarea lui `PHONE` în
-[src/business.ts](src/business.ts) îl duce automat în JSON-LD. Mai trebuie doar
-adăugat un link `tel:` vizibil în header și în secțiunea Locație.
+Este de departe cea mai importantă acțiune din tot documentul, e gratuită, și fără
+ea restul listei nu se poate face deloc: pe o fișă nerevendicată nu poți schimba
+numele, nu poți adăuga programul sau serviciile, nu poți răspunde la recenzii și
+nu poți lega site-ul.
+
+Există deja 9 recenzii și un rating bun — capital care momentan nu e controlat
+de nimeni. Mergi pe fișă → „Revendică această companie" → verificare (de obicei
+carte poștală sau telefon).
+
+### 5.2 După revendicare, în ordinea impactului
+
+1. **Recenzii.** Numărul, prospețimea și răspunsurile sunt cel mai puternic factor
+   de ranking local. Răspunde la toate cele 9 existente, apoi cere constant altele.
+2. **Numele.** Fișa e „Copiat chei", site-ul e „Master Key & Blade". Google leagă
+   entitățile prin nume + adresă, deci diferența slăbește legătura. Ori redenumești
+   fișa în `Master Key & Blade`, ori accepți diferența — în JSON-LD am declarat deja
+   `alternateName: "Copiat chei"`, ceea ce ajută, dar nu înlocuiește o potrivire reală.
+3. **Categorii.** Principală „Locksmith / Lăcătuș" sau păstrează „Servicii de
+   duplicare chei"; adaugă secundară pentru ascuțire — altfel serviciul de ascuțire
+   e practic invizibil în Maps.
+4. **Program.** Adaugă-l pe fișă exact ca pe site: luni–joi 10:00–16:00,
+   vineri 10:00–14:00, sâmbătă și duminică închis.
+5. **Website.** Adaugă adresa site-ului în ziua în care domeniul e live.
+6. **Produse și servicii** cu aceleași denumiri și prețuri ca pe site
+   (vezi `KEY_PRICES` și `SHARPENING_PRICE`).
+7. **Fotografii reale** din atelier, adăugate regulat.
+8. **Postări** scurte la câteva săptămâni.
+9. **Consistență în directoare** (pagini aurii etc.) — aceleași date.
+
+### 5.3 De discutat: „Aflat în: Kaufland"
+
+Fișa spune că atelierul e în incinta unui Kaufland. Site-ul nu menționează asta
+nicăieri, deși e exact genul de detaliu după care caută oamenii („copiat chei
+Kaufland Cluj") și care ajută pe cineva să găsească efectiv intrarea. Merită
+adăugat în secțiunea Locație, dacă e corect.
+
+## 6. Telefonul — ce contează și ce nu
+
+Nu există număr de telefon nici pe site, nici pe fișa Maps. Ca să fim exacți despre
+ce înseamnă asta:
+
+- **Pentru poziția în căutarea Google: nu contează.** Un număr de telefon pe pagină
+  nu a fost niciodată factor de ranking.
+- **Pentru poziția în Maps: aproape deloc.** Acolo contează fișa, iar fișa se
+  clasează pe recenzii, categorii și completitudine — nu pe existența unui telefon.
+- **Pentru căutarea AI: contează puțin.** Când cineva întreabă ChatGPT „cum
+  contactez un lăcătuș în Cluj", modelul poate cita adresa, programul și prețurile,
+  dar nu are ce răspunde la întrebarea de contact.
+- **Pentru conversii: contează cel mai mult** — și asta nu e SEO. Cine s-a
+  încuiat pe dinafară vrea să sune, nu să citească programul.
+
+Deci e o decizie de business, nu una de vizibilitate. Dacă se adaugă vreodată:
+completarea lui `PHONE` în [src/business.ts](src/business.ts) îl duce automat în
+JSON-LD; mai trebuie doar un link `tel:` vizibil în header și în secțiunea Locație.
 
 ## 7. Ce am evitat intenționat
 
