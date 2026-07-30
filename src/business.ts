@@ -25,7 +25,7 @@ export const SITE_URL = 'https://cheicluj.ro';
  * temporary *.vercel.app URL, and a canonical pointing at a domain that does
  * not resolve yet would get the page dropped from Google's index outright.
  */
-export const DOMAIN_LIVE = false;
+export const DOMAIN_LIVE = true;
 
 export const BUSINESS_NAME = 'Master Key & Blade';
 
