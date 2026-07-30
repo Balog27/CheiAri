@@ -10,10 +10,12 @@
  * worse for local ranking than a missing one.
  */
 
-/** No trailing slash. Every absolute URL on the site is built from this. */
-// TODO: confirm the real domain at launch — canonical, og:url, sitemap and the
-// JSON-LD @id all derive from it, and they are wrong until this is right.
-export const SITE_URL = 'https://masterkeyblade.ro';
+/**
+ * No trailing slash, and no `www` — the apex is the primary form configured in
+ * Vercel, so `www.cheicluj.ro` redirects here. Every absolute URL on the site is
+ * built from this, so it has to match the primary form character for character.
+ */
+export const SITE_URL = 'https://cheicluj.ro';
 
 /**
  * Flip to `true` the moment SITE_URL is the real, live domain.
