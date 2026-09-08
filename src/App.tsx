@@ -1,4 +1,5 @@
 import React from 'react';
+import { Analytics } from '@vercel/analytics/react';
 import NavBar, { scrollToSection, type SectionId } from './navBar';
 import {
   ADDRESS,
@@ -335,6 +336,7 @@ const App: React.FC = () => (
       <Faq />
     </main>
     <Footer />
+    <Analytics />
   </>
 );
 
