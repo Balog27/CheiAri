@@ -29,6 +29,9 @@ export const DOMAIN_LIVE = true;
 
 export const BUSINESS_NAME = 'Master Key & Blade';
 
+/** Website identity, separate from the workshop's business brand. */
+export const SITE_NAME = 'Chei Cluj';
+
 /**
  * The name the Google Business Profile is actually listed under. It differs
  * from the brand name above, so it is emitted as schema.org `alternateName`:

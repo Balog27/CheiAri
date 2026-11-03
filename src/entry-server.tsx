@@ -26,6 +26,7 @@ import {
   SHARPENING_PRICE,
   SHARPENING_SERVICES,
   SITE_URL,
+  SITE_NAME,
 } from './business';
 
 /** Drops keys whose value is null/undefined so unknown facts are never guessed. */
@@ -139,7 +140,8 @@ function buildJsonLd() {
     '@type': 'WebSite',
     '@id': `${SITE_URL}/#website`,
     url: `${SITE_URL}/`,
-    name: BUSINESS_NAME,
+    name: SITE_NAME,
+    alternateName: ['CheiCluj', 'cheicluj.ro'],
     inLanguage: 'ro-RO',
     publisher: { '@id': BUSINESS_ID },
   };

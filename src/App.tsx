@@ -13,6 +13,7 @@ import {
   KEY_SERVICES,
   SHARPENING_PRICE,
   SHARPENING_SERVICES,
+  SITE_NAME,
   type PriceRow,
 } from './business';
 
@@ -178,8 +179,8 @@ const Keys: React.FC = () => (
     <figure className="mt-14">
       <img
         src="/cartele-tag-uri-proximitate.webp"
-        srcSet="/cartele-tag-uri-proximitate-768.webp 768w, /cartele-tag-uri-proximitate.webp 1536w"
-        sizes="(min-width: 1024px) 66vw, 100vw"
+        srcSet="/cartele-tag-uri-proximitate-480.webp 480w, /cartele-tag-uri-proximitate-768.webp 768w, /cartele-tag-uri-proximitate-1024.webp 1024w, /cartele-tag-uri-proximitate.webp 1536w"
+        sizes="(min-width: 1536px) 944px, (min-width: 1280px) calc(75vw - 88px), (min-width: 1024px) calc(66.67vw - 85.33px), (min-width: 640px) calc(100vw - 64px), calc(100vw - 40px)"
         width={1536}
         height={1024}
         alt="Cartele și tag-uri de proximitate în mai multe culori"
@@ -232,7 +233,10 @@ const Sharpening: React.FC = () => (
   </Section>
 );
 
-const Location: React.FC = () => (
+const Location: React.FC = () => {
+  const [mapOpen, setMapOpen] = React.useState(false);
+
+  return (
   <Section id="locatie" index="03 / Locație" title="Unde ne găsești">
     <div className="grid gap-10 lg:grid-cols-2 lg:gap-14">
       <dl className="space-y-8">
@@ -250,7 +254,7 @@ const Location: React.FC = () => (
               <a
                 href={GBP_URL}
                 target="_blank"
-                rel="noopener"
+                rel="noopener noreferrer"
                 className="link mt-3 inline-block text-sm text-ink-500 hover:text-ink"
               >
                 Vezi-ne pe Google Maps
@@ -275,18 +279,29 @@ const Location: React.FC = () => (
         </div>
       </dl>
 
-      <div className="border border-ink/15">
-        <iframe
+      <div className="border border-ink/15 bg-paper-200">
+        {mapOpen ? <iframe
           src="https://www.google.com/maps?q=Strada+C%C3%A2mpului+17,+Cluj-Napoca&output=embed"
           title={`Harta către ${ADDRESS_LINE}`}
-          loading="lazy"
           className="block h-[320px] w-full lg:h-full lg:min-h-[420px]"
           style={{ border: 0 }}
-        />
+        /> : (
+          <div className="flex h-[320px] flex-col items-center justify-center gap-5 px-6 text-center lg:h-full lg:min-h-[420px]">
+            <p className="text-lead">{ADDRESS_LINE}</p>
+            <button
+              type="button"
+              onClick={() => setMapOpen(true)}
+              className="bg-ink px-7 py-3.5 text-sm font-medium text-paper transition-colors hover:bg-ink-700"
+            >
+              Încarcă harta Google
+            </button>
+          </div>
+        )}
       </div>
     </div>
   </Section>
-);
+  );
+};
 
 /**
  * Plain answers to the questions customers actually ask. Every answer restates
@@ -314,7 +329,7 @@ const Footer: React.FC = () => (
       </p>
       <div className="text-sm text-paper/60 sm:text-right">
         <p>
-          © {new Date().getFullYear()} {BUSINESS_NAME} · {ADDRESS_LINE}
+          © {new Date().getFullYear()} {SITE_NAME} · {BUSINESS_NAME} · {ADDRESS_LINE}
         </p>
         <p className="mt-1.5">Creat de David Balog</p>
       </div>

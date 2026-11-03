@@ -8,8 +8,8 @@ module.exports = {
           DEFAULT: '#141210',
           700: '#2B2724',
           500: '#5E564F',
-          // Lightest step still clears 4.5:1 on paper. Used for small labels.
-          300: '#756C65',
+          // Clears 4.5:1 on both paper and the darker paper-200 info strip.
+          300: '#6F665F',
         },
         paper: {
           DEFAULT: '#FAF8F5',

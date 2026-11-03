@@ -126,8 +126,15 @@ const llms = `# ${BUSINESS_NAME}
 > ${META_DESCRIPTION}
 
 - Adresă: ${ADDRESS.street}, ${ADDRESS.city}, ${ADDRESS.region}, România
-- Site: ${canonical}
+- Site: [Chei Cluj](${canonical})
 - Limbă: română
+
+## Servicii și informații
+
+- [Copiere chei și cartele de acces](${canonical}#chei): servicii și prețuri.
+- [Ascuțire cuțite](${canonical}#ascutire): tipuri de lame și tarife.
+- [Program și adresă](${canonical}#locatie): unde ne găsești în Cluj-Napoca.
+- [Întrebări frecvente](${canonical}#intrebari): răspunsuri despre serviciile atelierului.
 
 ## Program
 
