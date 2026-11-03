@@ -234,7 +234,14 @@ const Sharpening: React.FC = () => (
 );
 
 const Location: React.FC = () => {
-  const [mapOpen, setMapOpen] = React.useState(false);
+  const [mapStatus, setMapStatus] = React.useState<'idle' | 'loading' | 'slow' | 'loaded'>('idle');
+  const [mapAttempt, setMapAttempt] = React.useState(0);
+
+  React.useEffect(() => {
+    if (mapStatus !== 'loading') return;
+    const timer = window.setTimeout(() => setMapStatus('slow'), 15000);
+    return () => window.clearTimeout(timer);
+  }, [mapStatus, mapAttempt]);
 
   return (
   <Section id="locatie" index="03 / Locație" title="Unde ne găsești">
@@ -280,23 +287,42 @@ const Location: React.FC = () => {
       </dl>
 
       <div className="border border-ink/15 bg-paper-200">
-        {mapOpen ? <iframe
-          src="https://www.google.com/maps?q=Strada+C%C3%A2mpului+17,+Cluj-Napoca&output=embed"
+        <div className="relative h-[320px] lg:h-[420px]">
+        {mapStatus !== 'idle' && <iframe
+          key={mapAttempt}
+          src="https://www.google.com/maps/embed?origin=mfe&pb=!1m2!2m1!1sStrada+C%C3%A2mpului+17,+Cluj-Napoca"
           title={`Harta către ${ADDRESS_LINE}`}
-          className="block h-[320px] w-full lg:h-full lg:min-h-[420px]"
+          onLoad={() => setMapStatus('loaded')}
+          className="block h-full w-full"
           style={{ border: 0 }}
-        /> : (
-          <div className="flex h-[320px] flex-col items-center justify-center gap-5 px-6 text-center lg:h-full lg:min-h-[420px]">
-            <p className="text-lead">{ADDRESS_LINE}</p>
+        />}
+        {mapStatus !== 'loaded' && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-5 bg-paper-200 px-6 text-center">
+            <p className="text-lead" role="status">
+              {mapStatus === 'idle' ? ADDRESS_LINE : mapStatus === 'slow'
+                ? 'Harta se încarcă greu. Poți deschide locația direct în Google Maps.'
+                : 'Se încarcă harta Google…'}
+            </p>
+            {mapStatus !== 'loading' && (
             <button
               type="button"
-              onClick={() => setMapOpen(true)}
+              onClick={() => {
+                setMapAttempt((attempt) => attempt + 1);
+                setMapStatus('loading');
+              }}
               className="bg-ink px-7 py-3.5 text-sm font-medium text-paper transition-colors hover:bg-ink-700"
             >
-              Încarcă harta Google
+              {mapStatus === 'idle' ? 'Încarcă harta Google' : 'Încearcă din nou'}
             </button>
+            )}
           </div>
         )}
+        </div>
+        <p className="border-t border-ink/15 px-5 py-4 text-center text-sm">
+          <a href={GBP_URL || 'https://www.google.com/maps?q=Strada+C%C3%A2mpului+17,+Cluj-Napoca'} target="_blank" rel="noopener noreferrer" className="link">
+            Deschide locația în Google Maps
+          </a>
+        </p>
       </div>
     </div>
   </Section>
