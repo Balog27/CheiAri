@@ -233,17 +233,7 @@ const Sharpening: React.FC = () => (
   </Section>
 );
 
-const Location: React.FC = () => {
-  const [mapStatus, setMapStatus] = React.useState<'idle' | 'loading' | 'slow' | 'loaded'>('idle');
-  const [mapAttempt, setMapAttempt] = React.useState(0);
-
-  React.useEffect(() => {
-    if (mapStatus !== 'loading') return;
-    const timer = window.setTimeout(() => setMapStatus('slow'), 15000);
-    return () => window.clearTimeout(timer);
-  }, [mapStatus, mapAttempt]);
-
-  return (
+const Location: React.FC = () => (
   <Section id="locatie" index="03 / Locație" title="Unde ne găsești">
     <div className="grid gap-10 lg:grid-cols-2 lg:gap-14">
       <dl className="space-y-8">
@@ -287,37 +277,19 @@ const Location: React.FC = () => {
       </dl>
 
       <div className="border border-ink/15 bg-paper-200">
-        <div className="relative h-[320px] lg:h-[420px]">
-        {mapStatus !== 'idle' && <iframe
-          key={mapAttempt}
-          src="https://www.google.com/maps/embed?origin=mfe&pb=!1m2!2m1!1sStrada+C%C3%A2mpului+17,+Cluj-Napoca"
-          title={`Harta către ${ADDRESS_LINE}`}
-          onLoad={() => setMapStatus('loaded')}
-          className="block h-full w-full"
-          style={{ border: 0 }}
-        />}
-        {mapStatus !== 'loaded' && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-5 bg-paper-200 px-6 text-center">
-            <p className="text-lead" role="status">
-              {mapStatus === 'idle' ? ADDRESS_LINE : mapStatus === 'slow'
-                ? 'Harta se încarcă greu. Poți deschide locația direct în Google Maps.'
-                : 'Se încarcă harta Google…'}
-            </p>
-            {mapStatus !== 'loading' && (
-            <button
-              type="button"
-              onClick={() => {
-                setMapAttempt((attempt) => attempt + 1);
-                setMapStatus('loading');
-              }}
-              className="bg-ink px-7 py-3.5 text-sm font-medium text-paper transition-colors hover:bg-ink-700"
-            >
-              {mapStatus === 'idle' ? 'Încarcă harta Google' : 'Încearcă din nou'}
-            </button>
-            )}
-          </div>
-        )}
-        </div>
+        <img
+          src="/harta-atelier.svg"
+          alt={`Harta atelierului Master Key & Blade, ${ADDRESS_LINE}`}
+          width={800}
+          height={680}
+          loading="lazy"
+          className="block h-[320px] w-full object-cover lg:h-[420px]"
+        />
+        <p className="px-3 py-1 text-right text-xs text-ink-500">
+          <a href="https://www.openstreetmap.org/copyright" className="underline">
+            © OpenStreetMap contributors
+          </a>
+        </p>
         <p className="border-t border-ink/15 px-5 py-4 text-center text-sm">
           <a href={GBP_URL || 'https://www.google.com/maps?q=Strada+C%C3%A2mpului+17,+Cluj-Napoca'} target="_blank" rel="noopener noreferrer" className="link">
             Deschide locația în Google Maps
@@ -326,8 +298,7 @@ const Location: React.FC = () => {
       </div>
     </div>
   </Section>
-  );
-};
+);
 
 /**
  * Plain answers to the questions customers actually ask. Every answer restates
@@ -350,14 +321,28 @@ const Faq: React.FC = () => (
 const Footer: React.FC = () => (
   <footer className="border-t border-ink/10 bg-ink text-paper">
     <div className="shell flex flex-col gap-6 py-10 sm:flex-row sm:items-center sm:justify-between">
-      <p className="text-[0.8125rem] font-semibold tracking-[0.22em]">
-        MASTER KEY <span className="font-normal text-brass-400">&amp; BLADE</span>
-      </p>
+      <div className="flex flex-col items-start gap-4">
+        <p className="text-[0.8125rem] font-semibold tracking-[0.22em]">
+          MASTER KEY <span className="font-normal text-brass-400">&amp; BLADE</span>
+        </p>
+        <a href="https://reclamatiisal.anpc.ro" className="block max-w-full">
+          <img
+            src="/anpc-sal.png"
+            alt="ANPC – Soluționarea alternativă a litigiilor"
+            width={250}
+            height={50}
+            loading="lazy"
+          />
+        </a>
+      </div>
       <div className="text-sm text-paper/60 sm:text-right">
         <p>
           © {new Date().getFullYear()} {SITE_NAME} · {BUSINESS_NAME} · {ADDRESS_LINE}
         </p>
         <p className="mt-1.5">Creat de David Balog</p>
+        <a href="/confidentialitate.html" className="link mt-3 inline-block text-paper/80 hover:text-paper">
+          Confidențialitate
+        </a>
       </div>
     </div>
   </footer>
